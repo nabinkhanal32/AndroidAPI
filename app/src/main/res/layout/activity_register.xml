@@ -5,35 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Dashboard">
+    tools:context=".RegisterActivity">
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:hint="Name"
+        />
 
-    <Button
-        android:id="@+id/btnView"
+    <EditText
+        android:id="@+id/etSalary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="View"
         android:layout_margin="20dp"
+        android:hint="Salary"
+
+        />
+
+    <EditText
+        android:id="@+id/etAge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:hint="Age"
+
+
         />
     <Button
-        android:id="@+id/btnSearch"
+        android:id="@+id/btnSignup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search"
-        android:layout_margin="20dp"
-        />
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Register"
-        android:layout_margin="20dp"
-        />
-    <Button
-        android:id="@+id/btnUpdateDelete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Update/Delete"
-        android:layout_margin="20dp"
+        android:text="SignUp"
         />
 
 </LinearLayout>
