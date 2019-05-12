@@ -18,8 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UpdateAndDelete extends AppCompatActivity {
     private final static String BASE_URL = "http://dummy.restapiexample.com/api/v1/";
-    private EditText etEmpName, etEmpSalary, etEmpAge,etEmpId;
-    private Button btnEmpSearch,btnUpdate,btnDelete;
+    private EditText etEmpName, etEmpSalary, etEmpAge, etEmpId;
+    private Button btnEmpSearch, btnUpdate, btnDelete;
     EmployeeAPI employeeAPI;
     Retrofit retrofit;
 
@@ -47,20 +47,25 @@ public class UpdateAndDelete extends AppCompatActivity {
                 updateEmployees();
             }
         });
-
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteEmployee();
+            }
+        });
 
     }
 
     private void CreateInstance() {
-         retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-         employeeAPI = retrofit.create(EmployeeAPI.class);
+        employeeAPI = retrofit.create(EmployeeAPI.class);
     }
-    private void loadData()
-    {
+
+    private void loadData() {
         CreateInstance();
 
         Call<Employee> listCall = employeeAPI.getEmployeeByID(Integer.parseInt(etEmpId.getText().toString()));
@@ -71,7 +76,7 @@ public class UpdateAndDelete extends AppCompatActivity {
                 etEmpName.setText(response.body().getEmployee_name());
                 etEmpSalary.setText(Float.toString(response.body().getEmployee_salary()));
                 etEmpAge.setText(Integer.toString(response.body().getEmployee_age()));
-                
+
             }
 
             @Override
@@ -83,27 +88,42 @@ public class UpdateAndDelete extends AppCompatActivity {
     }
 
 
-    private void updateEmployees()
-    {
+    private void updateEmployees() {
         CreateInstance();
         EmployeeCUD employee = new EmployeeCUD(
                 etEmpName.getText().toString(),
                 Float.parseFloat(etEmpSalary.getText().toString()),
                 Integer.parseInt(etEmpAge.getText().toString())
         );
-      Call<Void> voidCall = employeeAPI.updateEmployee(Integer.parseInt(etEmpId.getText().toString()),employee);
-      voidCall.enqueue(new Callback<Void>() {
-          @Override
-          public void onResponse(Call<Void> call, Response<Void> response) {
-              Toast.makeText(UpdateAndDelete.this, "Updated", Toast.LENGTH_SHORT).show();
-          }
+        Call<Void> voidCall = employeeAPI.updateEmployee(Integer.parseInt(etEmpId.getText().toString()), employee);
+        voidCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Toast.makeText(UpdateAndDelete.this, "Updated", Toast.LENGTH_SHORT).show();
+            }
 
-          @Override
-          public void onFailure(Call<Void> call, Throwable t) {
-              Toast.makeText(UpdateAndDelete.this, "Error", Toast.LENGTH_SHORT).show();
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(UpdateAndDelete.this, "Error", Toast.LENGTH_SHORT).show();
 
-          }
-      });
+            }
+        });
     }
 
+    private void deleteEmployee() {
+        CreateInstance();
+        Call<Void> voidCall = employeeAPI.deleteEmployee(Integer.parseInt(etEmpId.getText().toString()));
+        voidCall.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Toast.makeText(UpdateAndDelete.this, "Successfully deleted", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(UpdateAndDelete.this, "Error" + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
 }
