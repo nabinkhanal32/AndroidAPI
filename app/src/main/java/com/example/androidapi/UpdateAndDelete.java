@@ -1,5 +1,7 @@
 package com.example.androidapi;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +24,7 @@ public class UpdateAndDelete extends AppCompatActivity {
     private Button btnEmpSearch, btnUpdate, btnDelete;
     EmployeeAPI employeeAPI;
     Retrofit retrofit;
+    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,9 @@ public class UpdateAndDelete extends AppCompatActivity {
         btnDelete = findViewById(R.id.btnDelete);
         btnEmpSearch = findViewById(R.id.btnEmpSearch);
         btnUpdate = findViewById(R.id.btnUpdate);
+        builder = new AlertDialog.Builder(this);
+
+
         btnEmpSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,13 +50,35 @@ public class UpdateAndDelete extends AppCompatActivity {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateEmployees();
+
+
+        updateEmployees();
             }
         });
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteEmployee();
+                AlertDialog.Builder builder = new AlertDialog.Builder(UpdateAndDelete.this);
+                builder.setMessage("Are you sure want to delete this?");
+                builder.setCancelable(true);
+                builder.setPositiveButton("yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                deleteEmployee();
+
+                            }
+                        });
+                builder.setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 

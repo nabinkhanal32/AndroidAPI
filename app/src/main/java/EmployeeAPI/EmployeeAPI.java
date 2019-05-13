@@ -25,7 +25,7 @@ public interface EmployeeAPI {
     Call<Void> registerEmployee(@Body EmployeeCUD emp);
 
 
-    @DELETE("update/{empID}")
+    @DELETE("delete/{empID}")
     Call<Void> deleteEmployee(@Path("empID") int empId);
 
     @PUT("update/{empID}")
